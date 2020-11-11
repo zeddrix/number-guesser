@@ -25,7 +25,17 @@ const setMessage = (msg, color) => {
   message.textContent = msg;
 };
 
-guessBtn.addEventListener("click", () => {
+const gameOver = (won, msg) => {
+  let color;
+  won === true ? (color = "green") : (color = "red");
+
+  guessInput.disabled = true;
+  guessInput.style.borderColor = color;
+  message.style.color = color;
+  setMessage(msg);
+};
+
+const validateAnswer = () => {
   let guess = parseInt(guessInput.value);
 
   if (isNaN(guess) || guess < min || guess > max) {
@@ -33,9 +43,21 @@ guessBtn.addEventListener("click", () => {
   }
 
   if (guess === winningNum) {
-    guessInput.disabled = true;
-    guessInput.style.borderColor = "green";
-    setMessage(`${winningNum} is correct, YOU WIN!`, "green");
+    gameOver(true, `${winningNum} is correct, YOU WIN!`);
   } else {
+    guessesLeft -= 1;
+
+    if (guessesLeft === 0) {
+      gameOver(
+        false,
+        `Game over, you lost. The correct number was ${winningNum}.`
+      );
+    } else {
+      guessInput.style.borderColor = "red";
+      guessInput.value = "";
+      setMessage(`Guess is not correct, ${guessesLeft} guesses left.`, "red");
+    }
   }
-});
+};
+
+guessBtn.addEventListener("click", validateAnswer);
