@@ -39,10 +39,9 @@ const validateAnswer = () => {
   let guess = parseInt(guessInput.value);
 
   if (isNaN(guess) || guess < min || guess > max) {
+    console.log(guess);
     setMessage(`Please enter a number between ${min} and ${max}`, "red");
-  }
-
-  if (guess === winningNum) {
+  } else if (guess === winningNum) {
     gameOver(true, `${winningNum} is correct, YOU WIN!`);
   } else {
     guessesLeft -= 1;
@@ -52,6 +51,8 @@ const validateAnswer = () => {
         false,
         `Game over, you lost. The correct number was ${winningNum}.`
       );
+      guessBtn.value = "Play Again";
+      guessBtn.classList.add("play-again");
     } else {
       guessInput.style.borderColor = "red";
       guessInput.value = "";
@@ -61,3 +62,8 @@ const validateAnswer = () => {
 };
 
 guessBtn.addEventListener("click", validateAnswer);
+game.addEventListener("mousedown", (e) => {
+  if (e.target.className === "play-again") {
+    location.reload();
+  }
+});
