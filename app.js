@@ -7,8 +7,16 @@
 
 let min = 1;
 let max = 10;
-let winningNum = 2;
+let winningNum;
 let guessesLeft = 3;
+
+const getRandomNum = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1));
+  // Add + min to include the max number
+  //   return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+winningNum = getRandomNum(min, max);
 
 const game = document.querySelector("#game");
 const minNum = document.querySelector("#min-num");
