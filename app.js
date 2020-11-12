@@ -5,10 +5,22 @@
 // - Notify the player of the correct answer if lose
 // - Let player choose to play again
 
+const game = document.querySelector("#game");
+const minNum = document.querySelector("#min-num");
+const maxNum = document.querySelector("#max-num");
+const guessBtn = document.querySelector("#guess-btn");
+const guessInput = document.querySelector("#guess-input");
+const message = document.querySelector("#message");
+
 let min = 1;
 let max = 10;
 let winningNum;
 let guessesLeft = 3;
+let color;
+let guess;
+
+minNum.textContent = min;
+maxNum.textContent = max;
 
 const getRandomNum = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1));
@@ -18,23 +30,12 @@ const getRandomNum = (min, max) => {
 
 winningNum = getRandomNum(min, max);
 
-const game = document.querySelector("#game");
-const minNum = document.querySelector("#min-num");
-const maxNum = document.querySelector("#max-num");
-const guessBtn = document.querySelector("#guess-btn");
-const guessInput = document.querySelector("#guess-input");
-const message = document.querySelector("#message");
-
-minNum.textContent = min;
-maxNum.textContent = max;
-
 const setMessage = (msg, color) => {
   message.style.color = color;
   message.textContent = msg;
 };
 
 const gameOver = (won, msg) => {
-  let color;
   won === true ? (color = "green") : (color = "red");
 
   guessInput.disabled = true;
@@ -44,8 +45,7 @@ const gameOver = (won, msg) => {
 };
 
 const validateAnswer = () => {
-  let guess = parseInt(guessInput.value);
-
+  guess = parseInt(guessInput.value);
   if (isNaN(guess) || guess < min || guess > max) {
     console.log(guess);
     setMessage(`Please enter a number between ${min} and ${max}`, "red");
